@@ -16,9 +16,28 @@ namespace HuddersfieldSportCentre.Controllers
         private SportContext db = new SportContext();
 
         // GET: Customer
-        public ActionResult Index()
+        public ActionResult Index(string SortOrder)
         {
-            return View(db.Customers.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(SortOrder) ? "NameDescending" : "";
+            ViewBag.DateSortParm = SortOrder == "Date" ? "DateDescending" : "Date";
+            var customers = from c in db.Customers
+                           select c;
+            switch (SortOrder)
+            {
+                case "NameDescending":
+                    customers = customers.OrderByDescending(c => c.LastName);
+                    break;
+                case "Date":
+                    customers = customers.OrderBy(c => c.EnrollmentDate);
+                    break;
+                case "DateDescending":
+                    customers = customers.OrderByDescending(c => c.EnrollmentDate);
+                    break;
+                default:
+                    customers = customers.OrderBy(c => c.LastName);
+                    break;
+            }
+            return View(customers.ToList());
         }
 
         // GET: Customer/Details/5
