@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HuddersfieldSportCentre.DataAccessLayer;
 using HuddersfieldSportCentre.Models;
+using PagedList;
 
 namespace HuddersfieldSportCentre.Controllers
 {
@@ -16,12 +17,30 @@ namespace HuddersfieldSportCentre.Controllers
         private SportContext db = new SportContext();
 
         // GET: Customer
-        public ActionResult Index(string SortOrder)
+        public ViewResult Index(string SortOrder, string currentPage, string SearchbarString, int? page)
         {
+            ViewBag.CurrentSort = SortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(SortOrder) ? "NameDescending" : "";
             ViewBag.DateSortParm = SortOrder == "Date" ? "DateDescending" : "Date";
+
+            if (SearchbarString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchbarString = currentPage;
+            }
+
+            ViewBag.CurrentPage = SearchbarString;
+
             var customers = from c in db.Customers
                            select c;
+        if (!String.IsNullOrEmpty(SearchbarString))
+    {
+        customers = customers.Where(c => c.LastName.Contains(SearchbarString)
+                               || c.FirstName.Contains(SearchbarString));
+    }
             switch (SortOrder)
             {
                 case "NameDescending":
@@ -37,7 +56,9 @@ namespace HuddersfieldSportCentre.Controllers
                     customers = customers.OrderBy(c => c.LastName);
                     break;
             }
-            return View(customers.ToList());
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(customers.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Customer/Details/5
