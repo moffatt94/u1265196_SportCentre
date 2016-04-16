@@ -13,8 +13,8 @@ namespace HuddersfieldSportCentre.DataAccessLayer
         {
             var customers = new List<Customer>
             {
-            new Customer{FirstName="Carson",LastName="Alexander",EnrollmentDate=DateTime.Parse("2005-09-01")},
-            new Customer{FirstName="Meredith",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
+            new Customer{FirstName="Carson",LastName="Moffatt",EnrollmentDate=DateTime.Parse("2005-09-01")},
+            new Customer{FirstName="Jozell",LastName="Alonso",EnrollmentDate=DateTime.Parse("2002-09-01")},
             new Customer{FirstName="Arturo",LastName="Anand",EnrollmentDate=DateTime.Parse("2003-09-01")},
             new Customer{FirstName="Gytis",LastName="Barzdukas",EnrollmentDate=DateTime.Parse("2002-09-01")},
             new Customer{FirstName="Yan",LastName="Li",EnrollmentDate=DateTime.Parse("2002-09-01")},
