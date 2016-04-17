@@ -6,7 +6,7 @@ namespace HuddersfieldSportCentre.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
     using HuddersfieldSportCentre.Models;
-    using HuddersfieldSportCentre.Models;
+    using HuddersfieldSportCentre.ViewModels;
     using HuddersfieldSportCentre.DataAccessLayer;
 
     internal sealed class Configuration : DbMigrationsConfiguration<HuddersfieldSportCentre.DataAccessLayer.SportContext>
