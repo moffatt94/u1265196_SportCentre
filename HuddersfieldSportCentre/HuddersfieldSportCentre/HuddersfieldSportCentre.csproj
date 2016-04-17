@@ -136,9 +136,29 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604171127394_InitialCreate.cs" />
+    <Compile Include="Migrations\201604171127394_InitialCreate.Designer.cs">
+      <DependentUpon>201604171127394_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604171252058_MaxLengthOnNames.cs" />
+    <Compile Include="Migrations\201604171252058_MaxLengthOnNames.Designer.cs">
+      <DependentUpon>201604171252058_MaxLengthOnNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604171336029_ComplexDataModel.cs" />
+    <Compile Include="Migrations\201604171336029_ComplexDataModel.Designer.cs">
+      <DependentUpon>201604171336029_ComplexDataModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604171509574_ComplexDataModel1.cs" />
+    <Compile Include="Migrations\201604171509574_ComplexDataModel1.Designer.cs">
+      <DependentUpon>201604171509574_ComplexDataModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourtAssignment.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Enrollment.cs" />
+    <Compile Include="Models\Trainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\EnrollmentDateGroup.cs" />
   </ItemGroup>
@@ -190,7 +210,20 @@
     <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604171127394_InitialCreate.resx">
+      <DependentUpon>201604171127394_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604171252058_MaxLengthOnNames.resx">
+      <DependentUpon>201604171252058_MaxLengthOnNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604171336029_ComplexDataModel.resx">
+      <DependentUpon>201604171336029_ComplexDataModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604171509574_ComplexDataModel1.resx">
+      <DependentUpon>201604171509574_ComplexDataModel1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
