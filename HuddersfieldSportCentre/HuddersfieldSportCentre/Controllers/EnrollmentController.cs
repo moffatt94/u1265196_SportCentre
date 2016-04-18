@@ -40,7 +40,7 @@ namespace HuddersfieldSportCentre.Controllers
         // GET: Enrollment/Create
         public ActionResult Create()
         {
-            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", "Level");
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title");
             ViewBag.CustomerID = new SelectList(db.Customers, "ID", "Details");
             return View();
         }
@@ -50,7 +50,7 @@ namespace HuddersfieldSportCentre.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EnrollmentID,CourseID,CustomerID,Skills")] Enrollment enrollment)
+        public ActionResult Create([Bind(Include = "EnrollmentID,CourseID,CustomerID,")] Enrollment enrollment)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace HuddersfieldSportCentre.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", "Level", enrollment.CourseID);
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "Title", enrollment.CourseID);
             ViewBag.CustomerID = new SelectList(db.Customers, "ID", "Details", enrollment.CustomerID);
             return View(enrollment);
         }
@@ -86,7 +86,7 @@ namespace HuddersfieldSportCentre.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EnrollmentID,CourseID,CustomerID,Skills")] Enrollment enrollment)
+        public ActionResult Edit([Bind(Include = "EnrollmentID,CourseID,CustomerID")] Enrollment enrollment)
         {
             if (ModelState.IsValid)
             {
