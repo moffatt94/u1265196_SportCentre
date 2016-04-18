@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using HuddersfieldSportCentre.DataAccessLayer;
 using HuddersfieldSportCentre.Models;
 using HuddersfieldSportCentre.ViewModels;
+using System.Data.Entity.Infrastructure;
 
 namespace HuddersfieldSportCentre.Controllers
 {
@@ -87,31 +88,101 @@ namespace HuddersfieldSportCentre.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Trainer trainer = db.Trainers.Find(id);
+            Trainer trainer = db.Trainers
+            .Include(i => i.Courses)
+            .Where(i => i.ID == id)
+            .Single();
+            PopulateAssignCourseData(trainer);
             if (trainer == null)
             {
                 return HttpNotFound();
             }
-          //  ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
+          
             return View(trainer);
         }
 
-        // POST: Trainer/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,LastName,FirstName,StartedDate")] Trainer trainer)
+        private void PopulateAssignCourseData(Trainer trainer)
         {
-            if (ModelState.IsValid)
+            var allCourses = db.Courses;
+            var trainerCourses = new HashSet<int>(trainer.Courses.Select(c => c.CourseID));
+            var viewModel = new List<AssignCourseData>();
+            foreach (var course in allCourses)
             {
-                db.Entry(trainer).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                viewModel.Add(new AssignCourseData
+                {
+                    CourseID = course.CourseID,
+                    Title = course.Title,
+                    Assigned = trainerCourses.Contains(course.CourseID)
+                });
             }
-           // ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
-            return View(trainer);
+            ViewBag.Courses = viewModel;
         }
+
+        // POST: Trainer/Edit/5
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(int? id, string[] selectedCourses)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var trainerToUpdate = db.Trainers
+               .Include(i => i.Courses)
+               .Where(i => i.ID == id)
+               .Single();
+
+            if (TryUpdateModel(trainerToUpdate, "",
+               new string[] { "LastName", "FirstName", "HireDate" }))
+            {
+                try
+                {
+
+                    UpdateTrainerCourses(selectedCourses, trainerToUpdate);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (RetryLimitExceededException)
+                {
+                    
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+            PopulateAssignCourseData(trainerToUpdate);
+            return View(trainerToUpdate);
+        }
+        private void UpdateTrainerCourses(string[] selectedCourses, Trainer trainerToUpdate)
+        {
+            if (selectedCourses == null)
+            {
+                trainerToUpdate.Courses = new List<Course>();
+                return;
+            }
+
+            var selectedCoursesHS = new HashSet<string>(selectedCourses);
+            var trainerCourses = new HashSet<int>
+                (trainerToUpdate.Courses.Select(c => c.CourseID));
+            foreach (var course in db.Courses)
+            {
+                if (selectedCoursesHS.Contains(course.CourseID.ToString()))
+                {
+                    if (!trainerCourses.Contains(course.CourseID))
+                    {
+                        trainerToUpdate.Courses.Add(course);
+                    }
+                }
+                else
+                {
+                    if (trainerCourses.Contains(course.CourseID))
+                    {
+                        trainerToUpdate.Courses.Remove(course);
+                    }
+                }
+            }
+        }
+
+
 
         // GET: Trainer/Delete/5
         public ActionResult Delete(int? id)

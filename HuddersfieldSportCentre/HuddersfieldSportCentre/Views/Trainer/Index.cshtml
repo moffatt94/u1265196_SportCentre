@@ -14,6 +14,7 @@
         <th>Last Name</th>
         <th>First Name</th>
         <th>Job Start Date</th>
+        <th>Courses</th>
         <th></th>
     </tr>
 
@@ -34,6 +35,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.StartedDate)
         </td>
+
+        <td>
+            @{
+       foreach (var course in item.Courses)
+       {
+        @course.CourseID @:  @course.Title <br />
+        }
+            }
+        </td>
+
 
         <td>
             @Html.ActionLink("Select", "Index", new { id = item.ID }) |
