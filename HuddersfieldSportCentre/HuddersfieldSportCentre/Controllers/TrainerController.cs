@@ -59,17 +59,26 @@ namespace HuddersfieldSportCentre.Controllers
         // GET: Trainer/Create
         public ActionResult Create()
         {
-            //ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location");
+            var trainer = new Trainer();
+            trainer.Courses = new List<Course>();
+            PopulateAssignCourseData(trainer);
             return View();
         }
 
         // POST: Trainer/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,LastName,FirstName,StartedDate")] Trainer trainer)
+        public ActionResult Create([Bind(Include = "ID,LastName,FirstName,StartedDate")] Trainer trainer, string[] selectedCourses)
         {
+            if (selectedCourses != null)
+            {
+                trainer.Courses = new List<Course>();
+                foreach (var course in selectedCourses)
+                {
+                    var courseToAdd = db.Courses.Find(int.Parse(course));
+                    trainer.Courses.Add(courseToAdd);
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Trainers.Add(trainer);
@@ -77,7 +86,7 @@ namespace HuddersfieldSportCentre.Controllers
                 return RedirectToAction("Index");
             }
 
-           // ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
+            PopulateAssignCourseData(trainer);
             return View(trainer);
         }
 
@@ -204,8 +213,21 @@ namespace HuddersfieldSportCentre.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Trainer trainer = db.Trainers.Find(id);
+            Trainer trainer = db.Trainers
+           .Where(i => i.ID == id)
+           .Single();
+
             db.Trainers.Remove(trainer);
+            var department = db.Departments
+                    .Where(d => d.TrainerID == id)
+                    .SingleOrDefault();
+            if (department != null)
+            {
+                department.TrainerID = null;
+            }
+
+
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
