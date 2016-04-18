@@ -17,7 +17,7 @@ namespace HuddersfieldSportCentre.DataAccessLayer
         public DbSet<Course> Courses { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
-        public DbSet<CourtAssignment> CourtAssignments { get; set; }
+        // public DbSet<CourtAssignment> CourtAssignments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

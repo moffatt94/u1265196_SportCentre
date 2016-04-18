@@ -69,32 +69,32 @@ namespace HuddersfieldSportCentre.Migrations
 
             var courses = new List<Course>
             {
-            new Course{CourseID=1050,Title="Beginner Football",Level=1,
+            new Course{CourseID=1050,Title="Beginner Football",
                 DepartmentID = departments.Single( s => s.Name == "Football").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
 
-            new Course{CourseID=4022,Title="Intermediate Tennis",Level=2,
+            new Course{CourseID=4022,Title="Intermediate Tennis",
             DepartmentID = departments.Single( s => s.Name == "Tennis").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
-            new Course{CourseID=4041,Title="Advanced Cricket",Level=3,
+            new Course{CourseID=4041,Title="Advanced Cricket",
                 DepartmentID = departments.Single( s => s.Name == "Cricket").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
-            new Course{CourseID=1045,Title="Novice Badminton",Level=4,
+            new Course{CourseID=1045,Title="Novice Badminton",
                 DepartmentID = departments.Single( s => s.Name == "Tennis").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
-            new Course{CourseID=3141,Title="Intermediate Squash",Level=2,
+            new Course{CourseID=3141,Title="Intermediate Squash",
                 DepartmentID = departments.Single( s => s.Name == "Tennis").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
-            new Course{CourseID=2021,Title="Advanced Swimming",Level=3,
+            new Course{CourseID=2021,Title="Advanced Swimming",
                 DepartmentID = departments.Single( s => s.Name == "Swimming").DepartmentID,
                 Trainers = new List<Trainer>() 
             },
-            new Course{CourseID=2042,Title="Beginner PingPong",Level=1,
+            new Course{CourseID=2042,Title="Beginner PingPong",
                 DepartmentID = departments.Single( s => s.Name == "Cricket").DepartmentID,
                 Trainers = new List<Trainer>() 
             }
@@ -102,20 +102,20 @@ namespace HuddersfieldSportCentre.Migrations
             courses.ForEach(s => context.Courses.AddOrUpdate(p => p.CourseID, s));
             context.SaveChanges();
 
-            var courtAssignments = new List<CourtAssignment>
-            {
-                new CourtAssignment { 
-                    CourseID = courses.Single( i => i.Title == "Advanced Swimming").CourseID, 
-                    Location = "Smith 17" },
-                new CourtAssignment { 
-                    CourseID = courses.Single( i => i.Title == "Intermediate Tennis").CourseID, 
-                    Location = "Gowan 27" },
-                new CourtAssignment { 
-                    CourseID = courses.Single( i => i.Title == "Advanced Football").CourseID, 
-                    Location = "Thompson 304" },
-            };
-            courtAssignments.ForEach(s => context.CourtAssignments.AddOrUpdate(p => p.CourseID, s));
-            context.SaveChanges();
+          // var courtAssignments = new List<CourtAssignment>
+            //{
+              //  new CourtAssignment { 
+                ///    CourseID = courses.Single( i => i.Title == "Advanced Swimming").CourseID, 
+                   // Location = "Smith 17" },
+                //new CourtAssignment { 
+                  //  CourseID = courses.Single( i => i.Title == "Intermediate Tennis").CourseID, 
+                    //Location = "Gowan 27" },
+                //new CourtAssignment { 
+                  //  CourseID = courses.Single( i => i.Title == "Advanced Football").CourseID, 
+                    //Location = "Thompson 304" },
+            //};
+            //courtAssignments.ForEach(s => context.CourtAssignments.AddOrUpdate(p => p.CourseID, s));
+            //context.SaveChanges(); 
 
             AddOrUpdateTrainer(context, "Beginner Football", "Kapoor");
             AddOrUpdateTrainer(context, "Advanced Cricket", "Harui");
@@ -134,44 +134,34 @@ namespace HuddersfieldSportCentre.Migrations
             var enrollments = new List<Enrollment>
             {
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alexander").ID, 
-                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID, 
-                    Skills = Skills.Beginner },
+                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alexander").ID, 
-                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID, 
-                    Skills = Skills.Advanced },
+                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alexander").ID, 
-                    CourseID = courses.Single(c => c.Title == "Beginner PingPong" ).CourseID, 
-                    Skills = Skills.Beginner },
+                    CourseID = courses.Single(c => c.Title == "Beginner PingPong" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alonso").ID, 
-                    CourseID = courses.Single(c => c.Title == "Advanced Swimming" ).CourseID, 
-                    Skills = Skills.Advanced },
+                    CourseID = courses.Single(c => c.Title == "Advanced Swimming" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alonso").ID, 
-                    CourseID = courses.Single(c => c.Title == "Intermediate Squash" ).CourseID, 
-                    Skills = Skills.Intermediate },
+                    CourseID = courses.Single(c => c.Title == "Intermediate Squash" ).CourseID},
 
            new Enrollment{CustomerID = customers.Single(s => s.LastName == "Alonso").ID, 
-                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID, 
-                    Skills = Skills.Beginner },
+                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Barzdukas").ID, 
-                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID, 
-                    Skills = Skills.Beginner },
+                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Barzdukas").ID, 
-                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID, 
-                    Skills = Skills.Advanced },
+                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Li").ID, 
-                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID, 
-                    Skills = Skills.Beginner },
+                    CourseID = courses.Single(c => c.Title == "Beginner Football" ).CourseID},
 
             new Enrollment{CustomerID = customers.Single(s => s.LastName == "Justice").ID, 
-                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID, 
-                    Skills = Skills.Advanced },
+                    CourseID = courses.Single(c => c.Title == "Advanced Cricket" ).CourseID},
 
 
             };

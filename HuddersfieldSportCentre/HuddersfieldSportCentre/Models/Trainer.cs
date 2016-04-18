@@ -31,6 +31,6 @@ namespace HuddersfieldSportCentre.Models
         }
 
         public virtual ICollection<Course> Courses { get; set; }
-        public virtual CourtAssignment CourtAssignment { get; set; }
+       // public virtual CourtAssignment CourtAssignment { get; set; }
     }
 }

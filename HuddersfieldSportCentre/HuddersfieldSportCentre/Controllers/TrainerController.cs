@@ -58,7 +58,7 @@ namespace HuddersfieldSportCentre.Controllers
         // GET: Trainer/Create
         public ActionResult Create()
         {
-            ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location");
+            //ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location");
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace HuddersfieldSportCentre.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
+           // ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
             return View(trainer);
         }
 
@@ -92,7 +92,7 @@ namespace HuddersfieldSportCentre.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
+          //  ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
             return View(trainer);
         }
 
@@ -109,7 +109,7 @@ namespace HuddersfieldSportCentre.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
+           // ViewBag.ID = new SelectList(db.CourtAssignments, "CourseID", "Location", trainer.ID);
             return View(trainer);
         }
 
