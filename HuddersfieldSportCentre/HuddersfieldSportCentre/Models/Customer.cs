@@ -33,6 +33,15 @@ namespace HuddersfieldSportCentre.Models
             }
         }
 
+        [Display(Name = "Details")]
+        public string Details
+        {
+            get
+            {
+                return LastName + ", " + FirstName + "," + Email;
+            }
+        }
+
         public virtual ICollection<Enrollment> Enrollments { get; set; }
     }
 }

@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EnrollmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
     <Compile Include="DataAccessLayer\SportContext.cs" />
@@ -222,6 +223,11 @@
     <Content Include="Views\Trainer\Details.cshtml" />
     <Content Include="Views\Trainer\Edit.cshtml" />
     <Content Include="Views\Trainer\Index.cshtml" />
+    <Content Include="Views\Enrollment\Create.cshtml" />
+    <Content Include="Views\Enrollment\Delete.cshtml" />
+    <Content Include="Views\Enrollment\Details.cshtml" />
+    <Content Include="Views\Enrollment\Edit.cshtml" />
+    <Content Include="Views\Enrollment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604171127394_InitialCreate.resx">
