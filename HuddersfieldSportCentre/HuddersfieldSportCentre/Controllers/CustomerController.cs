@@ -86,8 +86,9 @@ namespace HuddersfieldSportCentre.Controllers
        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LastName,FirstName,EnrollmentDate")] Customer customer)
+        public ActionResult Create([Bind(Include = "LastName,FirstName,EnrollmentDate,Email")] Customer customer)
         {
+
             try
             {
                 if (ModelState.IsValid)
