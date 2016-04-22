@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HuddersfieldSportCentre.Models.Course>
+﻿@model PagedList.IPagedList<HuddersfieldSportCentre.Models.Course>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Courses";
@@ -6,21 +8,26 @@
 
 <h2>Courses</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@using (Html.BeginForm("Index", "Course", FormMethod.Get))
+{
+    <p>
+        Find by <b>CourseID</b> OR <b>Course Title</b> OR <b>Department Name</b>: @Html.TextBox("SearchbarString", ViewBag.CurrentPage as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CourseID)
+            @Html.ActionLink("CourseID", "Index", new { SortOrder = ViewBag.CourseNoSortParm, currentPage = ViewBag.CurrentPage })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.ActionLink("Course Title", "Index", new { SortOrder = ViewBag.NameSortParm, currentPage = ViewBag.CurrentPage })
+        </th>
+        <th>
+            @Html.ActionLink("Department Name", "Index", new { SortOrder = ViewBag.DepartmentSortParm, currentPage = ViewBag.CurrentPage })
         </th>
 
-        <th>
-            Department
-        </th>
         <th></th>
     </tr>
 
@@ -44,3 +51,8 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, SortOrder = ViewBag.CurrentSort, currentPage = ViewBag.CurrentFilter }))

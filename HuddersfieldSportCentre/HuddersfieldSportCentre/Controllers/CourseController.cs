@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using HuddersfieldSportCentre.DataAccessLayer;
 using HuddersfieldSportCentre.Models;
 using System.Data.Entity.Infrastructure;
+using PagedList;
 
 namespace HuddersfieldSportCentre.Controllers
 {
@@ -17,12 +18,61 @@ namespace HuddersfieldSportCentre.Controllers
         private SportContext db = new SportContext();
 
         // GET: Course
-        public ActionResult Index()
-        {
-            var courses = db.Courses.Include(c => c.Department);
-          
-            return View(courses.ToList());
+        public ActionResult Index(string SortOrder, string currentPage, string SearchbarString, int? page)
+        
+             {
+            ViewBag.CurrentSort = SortOrder;
+            ViewBag.CourseNoSortParm = SortOrder == "ID" ? "CourseNoDescending" : "";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(SortOrder) ? "CourseNameDescending" : "CourseName";
+            ViewBag.DepartmentSortParm = String.IsNullOrEmpty(SortOrder) ? "DepartmentDescending" : "Department";
+
+            if (SearchbarString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchbarString = currentPage;
+            }
+
+            ViewBag.CurrentPage = SearchbarString;
+
+            var courses = from c in db.Courses.Include(c => c.Department)
+                           select c;
+        if (!String.IsNullOrEmpty(SearchbarString))
+    {
+        courses = courses.Where(c => c.CourseID.ToString().Contains(SearchbarString)
+                               || c.Title.Contains(SearchbarString)
+                               || c.Department.Name.Contains(SearchbarString));
+           
+            
+    }
+            switch (SortOrder)
+            {
+                case "CourseNoDescending":
+                    courses = courses.OrderByDescending(c => c.CourseID);
+                    break;
+                case "CourseName":
+                    courses = courses.OrderBy(c => c.Title);
+                    break;
+                case "CourseNameDescending":
+                    courses = courses.OrderByDescending(c => c.Title);
+                    break;
+                case "Department":
+                    courses = courses.OrderBy(c => c.Department.Name);
+                    break;
+                case "DepartmentDescending":
+                    courses = courses.OrderByDescending(c => c.Department.Name);
+                    break;
+                default:
+                    courses = courses.OrderBy(c => c.CourseID);
+                    break;
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(courses.ToPagedList(pageNumber, pageSize));
         }
+
 
         // GET: Course/Details/5
         public ActionResult Details(int? id)

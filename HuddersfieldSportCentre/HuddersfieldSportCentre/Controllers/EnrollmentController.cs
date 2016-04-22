@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HuddersfieldSportCentre.DataAccessLayer;
 using HuddersfieldSportCentre.Models;
+using PagedList;
 
 namespace HuddersfieldSportCentre.Controllers
 {
@@ -16,10 +17,51 @@ namespace HuddersfieldSportCentre.Controllers
         private SportContext db = new SportContext();
 
         // GET: Enrollment
-        public ActionResult Index()
+        public ActionResult Index(string SortOrder, string currentPage, string SearchbarString, int? page)
         {
-            var enrollments = db.Enrollments.Include(e => e.Course).Include(e => e.Customer);
-            return View(enrollments.ToList());
+            ViewBag.CurrentSort = SortOrder;
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(SortOrder) ? "TitleDescending" : "";
+            ViewBag.NameSortParm = String.IsNullOrEmpty(SortOrder) ? "NameDescending" : "Name";
+
+            if (SearchbarString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                SearchbarString = currentPage;
+            }
+
+            ViewBag.CurrentPage = SearchbarString;
+
+            var enrollments = from e in db.Enrollments.Include(e => e.Course).Include(e => e.Customer)
+
+                               select e;
+
+        if (!String.IsNullOrEmpty(SearchbarString))
+    {
+        enrollments = enrollments.Where(e => e.Course.Title.Contains(SearchbarString)
+                               || e.Customer.LastName.Contains(SearchbarString));
+    }
+        switch (SortOrder)
+        {
+
+            case "TitleDescending":
+                enrollments = enrollments.OrderByDescending(e => e.Course.Title);
+                break;
+            case "Name":
+                enrollments = enrollments.OrderBy(e => e.Customer.LastName);
+                break;
+            case "NameDescending":
+                enrollments = enrollments.OrderByDescending(e => e.Customer.LastName);
+                break;
+            default:
+                enrollments = enrollments.OrderBy(e => e.Course.Title);
+                break;
+        }
+        int pageSize = 5;
+        int pageNumber = (page ?? 1);
+        return View(enrollments.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Enrollment/Details/5
