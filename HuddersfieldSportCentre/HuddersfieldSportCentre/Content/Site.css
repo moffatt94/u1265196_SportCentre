@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #ffffff;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,6 +29,10 @@ textarea {
 input.input-validation-error {
     border: 1px solid #b94a48;
 }
+.navbar-inverse {
+    background-color: #011e05;
+    border-color: #17175e;
+}
 
 input[type="checkbox"].input-validation-error {
     border: 0 none;
@@ -39,4 +44,14 @@ input[type="checkbox"].input-validation-error {
 
 .validation-summary-valid {
     display: none;
+}
+.table{
+    background-color: #cfcfcf;
+    border-radius:5px;
+}
+element.style {
+}
+a {
+    color: #000000;
+    text-decoration: none;
 }
