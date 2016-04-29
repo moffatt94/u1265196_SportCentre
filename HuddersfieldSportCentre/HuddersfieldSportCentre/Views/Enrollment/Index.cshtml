@@ -14,7 +14,7 @@
 @using (Html.BeginForm("Index", "Enrollment", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("SearchbarString", ViewBag.CurrentPage as string)
+        Find by Course Name: @Html.TextBox("SearchbarString", ViewBag.CurrentPage as string)
         <input type="submit" value="Search" />
     </p>
 }
