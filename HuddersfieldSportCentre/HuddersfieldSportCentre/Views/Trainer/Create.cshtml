@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Add new Trainer</h2>
 
 
 @using (Html.BeginForm()) 
@@ -38,6 +38,11 @@
                 @Html.ValidationMessageFor(model => model.StartedDate, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <p>
+           Please Select Courses that the Trainer will coach:
+        </p>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

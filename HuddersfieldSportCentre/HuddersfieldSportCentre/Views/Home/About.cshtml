@@ -2,15 +2,16 @@
 @{
     ViewBag.Title = "About";
 }
-<h2>Statistics</h2>
+<h2>Number of Customers Added Per Day</h2>
 
 <table>
     <tr>
         <th>
             Enrollment Date
         </th>
+        
         <th>
-            Customers
+            No Of Customers Enrolled
         </th>
     </tr>
 
@@ -20,6 +21,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.EnrollmentDate)
             </td>
+
             <td>
                 @item.CustomerCount
             </td>
