@@ -16,7 +16,7 @@
     </p>
 }
 
-<table class="table">
+<table class="table table-hover table-striped">
     <tr>
         <th>
             @Html.ActionLink("CourseID", "Index", new { SortOrder = ViewBag.CourseNoSortParm, currentPage = ViewBag.CurrentPage })
@@ -31,24 +31,25 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CourseID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CourseID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CourseID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CourseID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CourseID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CourseID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CourseID })
+            </td>
+        </tr>
+    }
 
 </table>
 <br />
